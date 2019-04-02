@@ -3,6 +3,7 @@ import "./App.css";
 
 import { Task } from "./models/task";
 import { NewTaskForm } from "./components/NewTaskForm";
+import { TaskList } from "./components/TaskList";
 
 interface State {
   newTask: Task;
@@ -39,6 +40,12 @@ class App extends Component<{}, State> {
     }));
   };
 
+  private deleteTask = (taskToDelete: Task) => {
+    this.setState(prevState => ({
+      tasks: [...prevState.tasks.filter(task => task.id !== taskToDelete.id)]
+    }));
+  };
+
   render() {
     return (
       <div className="App">
@@ -48,6 +55,7 @@ class App extends Component<{}, State> {
           onChange={this.handleTaskChange}
           onAdd={this.addTask}
         />
+        <TaskList onDelete={this.deleteTask} tasks={this.state.tasks} />
       </div>
     );
   }
